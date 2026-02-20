@@ -84,4 +84,4 @@ Akses aplikasi melalui browser di: `http://localhost:3001`
 | `GET` | `/api/users` | List user (untuk kebutuhan testing) |
 
 ---
-Dibuat dengan ❤️ oleh Antigravity.
+Dibuat dengan ❤️ 
