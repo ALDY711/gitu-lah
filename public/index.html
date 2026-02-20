@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Registrasi — Verifikasi OTP</title>
+  <meta name="description" content="Sistem registrasi pengguna dengan verifikasi OTP melalui Gmail">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Animated Background Particles -->
+  <div class="bg-particles">
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+  </div>
+
+  <!-- Toast Container -->
+  <div id="toast-container"></div>
+
+  <main class="container">
+    <!-- ========== STEP 1: REGISTRATION FORM ========== -->
+    <section id="step-register" class="card active">
+      <div class="card-glow"></div>
+      <div class="card-content">
+        <div class="logo-icon">
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/>
+            <circle cx="9" cy="7" r="4"/>
+            <line x1="19" y1="8" x2="19" y2="14"/>
+            <line x1="22" y1="11" x2="16" y2="11"/>
+          </svg>
+        </div>
+        <h1>Buat Akun Baru</h1>
+        <p class="subtitle">Daftarkan diri Anda untuk memulai</p>
+
+        <form id="register-form" autocomplete="off">
+          <div class="input-group">
+            <div class="input-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                <circle cx="12" cy="7" r="4"/>
+              </svg>
+            </div>
+            <input type="text" id="nama" placeholder="Nama Lengkap" required>
+            <div class="input-highlight"></div>
+          </div>
+
+          <div class="input-group">
+            <div class="input-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect width="20" height="16" x="2" y="4" rx="2"/>
+                <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
+              </svg>
+            </div>
+            <input type="email" id="email" placeholder="Alamat Email" required>
+            <div class="input-highlight"></div>
+          </div>
+
+          <div class="input-group">
+            <div class="input-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect width="18" height="11" x="3" y="11" rx="2" ry="2"/>
+                <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+              </svg>
+            </div>
+            <input type="password" id="password" placeholder="Password (min. 6 karakter)" required minlength="6">
+            <div class="input-highlight"></div>
+          </div>
+
+          <div class="input-group">
+            <div class="input-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10"/>
+                <path d="m9 12 2 2 4-4"/>
+              </svg>
+            </div>
+            <input type="password" id="confirm-password" placeholder="Konfirmasi Password" required minlength="6">
+            <div class="input-highlight"></div>
+          </div>
+
+          <button type="submit" id="btn-register" class="btn-primary">
+            <span class="btn-text">Daftar Sekarang</span>
+            <span class="btn-loader">
+              <svg class="spinner" width="20" height="20" viewBox="0 0 24 24">
+                <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="3" fill="none" stroke-dasharray="31.4 31.4" stroke-linecap="round"/>
+              </svg>
+            </span>
+          </button>
+        </form>
+      </div>
+    </section>
+
+    <!-- ========== STEP 2: OTP VERIFICATION ========== -->
+    <section id="step-otp" class="card">
+      <div class="card-glow"></div>
+      <div class="card-content">
+        <div class="logo-icon otp-icon">
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect width="18" height="11" x="3" y="11" rx="2" ry="2"/>
+            <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+            <circle cx="12" cy="16" r="1"/>
+          </svg>
+        </div>
+        <h1>Verifikasi OTP</h1>
+        <p class="subtitle">Masukkan kode 6-digit yang dikirim ke</p>
+        <p class="email-display" id="otp-email-display"></p>
+
+        <form id="otp-form" autocomplete="off">
+          <div class="otp-inputs" id="otp-inputs">
+            <input type="text" maxlength="1" class="otp-digit" data-index="0" inputmode="numeric" pattern="[0-9]" required>
+            <input type="text" maxlength="1" class="otp-digit" data-index="1" inputmode="numeric" pattern="[0-9]" required>
+            <input type="text" maxlength="1" class="otp-digit" data-index="2" inputmode="numeric" pattern="[0-9]" required>
+            <input type="text" maxlength="1" class="otp-digit" data-index="3" inputmode="numeric" pattern="[0-9]" required>
+            <input type="text" maxlength="1" class="otp-digit" data-index="4" inputmode="numeric" pattern="[0-9]" required>
+            <input type="text" maxlength="1" class="otp-digit" data-index="5" inputmode="numeric" pattern="[0-9]" required>
+          </div>
+
+          <button type="submit" id="btn-verify" class="btn-primary">
+            <span class="btn-text">Verifikasi</span>
+            <span class="btn-loader">
+              <svg class="spinner" width="20" height="20" viewBox="0 0 24 24">
+                <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="3" fill="none" stroke-dasharray="31.4 31.4" stroke-linecap="round"/>
+              </svg>
+            </span>
+          </button>
+        </form>
+
+        <div class="resend-section">
+          <p class="resend-text" id="resend-text">Kirim ulang kode dalam <span id="countdown">60</span> detik</p>
+          <button id="btn-resend" class="btn-resend" disabled>Kirim Ulang OTP</button>
+        </div>
+
+        <button id="btn-back" class="btn-link">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="m12 19-7-7 7-7"/>
+            <path d="M19 12H5"/>
+          </svg>
+          Kembali ke Registrasi
+        </button>
+      </div>
+    </section>
+
+    <!-- ========== STEP 3: SUCCESS ========== -->
+    <section id="step-success" class="card">
+      <div class="card-glow"></div>
+      <div class="card-content success-content">
+        <div class="success-checkmark">
+          <svg width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+            <path d="m9 11 3 3L22 4"/>
+          </svg>
+        </div>
+        <h1>Registrasi Berhasil! 🎉</h1>
+        <p class="subtitle">Akun Anda telah berhasil diverifikasi dan aktif.</p>
+        <div class="success-info" id="success-info"></div>
+        <button id="btn-new-register" class="btn-primary">
+          <span class="btn-text">Daftar Akun Lain</span>
+        </button>
+      </div>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
